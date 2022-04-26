@@ -89,7 +89,6 @@ terminalLoop:
 				if len(args) >= 6 {
 					params = args[5:]
 				}
-				fmt.Println(params) // bug
 				out, err := s.Call(mName, dplugin.AnyToAny(params...)...)
 				if err != nil {
 					fmt.Println("error: ", err)
