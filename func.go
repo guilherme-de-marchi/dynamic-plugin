@@ -1,6 +1,7 @@
 package dynamic_plugin
 
 import (
+	"fmt"
 	"reflect"
 )
 
@@ -29,8 +30,12 @@ func NewFunc(f reflect.Value) (*Func, error) {
 	}, nil
 }
 
-func (f Func) Call(args ...reflect.Value) []reflect.Value {
+func (f *Func) Call(args ...reflect.Value) []reflect.Value {
 	return f.fun.Call(args)
+}
+
+func (f *Func) String() string {
+	return fmt.Sprintf("%v", f.fun.Type().String())
 }
 
 func getFuncInputs(f reflect.Value) ([]reflect.Type, error) {

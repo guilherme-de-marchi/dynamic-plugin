@@ -51,15 +51,12 @@ func (pm *PluginManager) GetValue(pName, symName string) (reflect.Value, error) 
 	return reflect.Indirect(reflect.ValueOf(s)), nil
 }
 
-func (pm *PluginManager) GetFunc(pName, funcName string) (reflect.Value, error) {
+func (pm *PluginManager) GetFunc(pName, funcName string) (*Func, error) {
 	v, err := pm.GetValue(pName, funcName)
 	if err != nil {
-		return v, err
+		return nil, err
 	}
-	if v.Kind() != reflect.Func {
-		return v, ErrIsNotFunc
-	}
-	return v, nil
+	return NewFunc(v)
 }
 
 func (pm *PluginManager) GetStruct(pName, sName string) (*Struct, error) {

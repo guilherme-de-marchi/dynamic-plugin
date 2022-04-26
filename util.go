@@ -22,7 +22,7 @@ func AnyToAny[T any](args ...T) []any {
 	return vls
 }
 
-func anyToValue(args []any) []reflect.Value {
+func AnyToValue[T any](args []T) []reflect.Value {
 	values := make([]reflect.Value, len(args))
 	for i, v := range args {
 		values[i] = reflect.ValueOf(v)

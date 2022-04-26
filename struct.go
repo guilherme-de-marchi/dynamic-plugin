@@ -1,6 +1,7 @@
 package dynamic_plugin
 
 import (
+	"fmt"
 	"reflect"
 )
 
@@ -31,7 +32,7 @@ func (s *Struct) Call(name string, args ...any) ([]reflect.Value, error) {
 	if !ok {
 		return nil, ErrNotFound
 	}
-	p := append([]reflect.Value{s.Receiver}, anyToValue(args)...)
+	p := append([]reflect.Value{s.Receiver}, AnyToValue(args)...)
 	return m.call(p), nil
 }
 
@@ -43,12 +44,24 @@ func (s *Struct) ListFields() []string {
 	return keys(s.fields)
 }
 
+func (s *Struct) GetMethod(name string) (Method, error) {
+	m, ok := s.methods[name]
+	if !ok {
+		return Method{}, ErrNotFound
+	}
+	return m, nil
+}
+
 func (s *Struct) GetField(name string) (reflect.Value, error) {
 	_, ok := s.fields[name]
 	if !ok {
 		return reflect.Value{}, ErrNotFound
 	}
-	return s.Receiver.FieldByName(name), nil
+	return reflect.Indirect(s.Receiver).FieldByName(name), nil
+}
+
+func (s *Struct) String() string {
+	return fmt.Sprintf("%v <methods:%v> <fields:%v>", s.Receiver.Type().String(), s.methods, s.fields)
 }
 
 type Method struct {
@@ -58,6 +71,10 @@ type Method struct {
 
 func (m Method) call(args []reflect.Value) []reflect.Value {
 	return m.method.Func.Call(args)
+}
+
+func (m Method) String() string {
+	return fmt.Sprintf("%v", m.method.Func.Type().String())
 }
 
 func getStructFields(s reflect.Value) (map[string]reflect.Type, error) {
