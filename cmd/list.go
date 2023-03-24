@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 
-	dplugin "github.com/Guilherme-De-Marchi/dynamic-plugin"
+	"github.com/Guilherme-De-Marchi/dynamic-plugin"
 )
 
 var plugin string
@@ -32,7 +32,7 @@ var listCmd = &cobra.Command{
 		return nil
 	},
 	RunE: func(cmd *cobra.Command, args []string) error {
-		pm, err := dplugin.LoadPlugins("./plugins")
+		pm, err := dypl.LoadPlugins("./plugins")
 		if err != nil {
 			return err
 		}

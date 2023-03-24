@@ -1,4 +1,4 @@
-package dynamic_plugin
+package dypl
 
 import (
 	"reflect"

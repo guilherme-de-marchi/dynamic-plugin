@@ -3,7 +3,7 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	dplugin "github.com/Guilherme-De-Marchi/dynamic-plugin"
+	"github.com/Guilherme-De-Marchi/dynamic-plugin"
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +28,7 @@ var inspectCmd = &cobra.Command{
 		return nil
 	},
 	RunE: func(cmd *cobra.Command, args []string) error {
-		pm, err := dplugin.LoadPlugins("./plugins")
+		pm, err := dypl.LoadPlugins("./plugins")
 		if err != nil {
 			return err
 		}

@@ -3,7 +3,7 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	dplugin "github.com/Guilherme-De-Marchi/dynamic-plugin"
+	"github.com/Guilherme-De-Marchi/dynamic-plugin"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +27,7 @@ var callCmd = &cobra.Command{
 		return nil
 	},
 	RunE: func(cmd *cobra.Command, args []string) error {
-		pm, err := dplugin.LoadPlugins("./plugins")
+		pm, err := dypl.LoadPlugins("./plugins")
 		if err != nil {
 			return err
 		}
@@ -41,7 +41,7 @@ var callCmd = &cobra.Command{
 			if len(args) > 3 {
 				in = args[3:]
 			}
-			fmt.Println(f.Call(dplugin.AnyToValue(in)...))
+			fmt.Println(f.Call(dypl.AnyToValue(in)...))
 		case "method":
 			s, err := pm.GetStruct(args[0], args[1])
 			if err != nil {
@@ -51,7 +51,7 @@ var callCmd = &cobra.Command{
 			if len(args) > 3 {
 				in = args[3:]
 			}
-			out, err := s.Call(args[2], dplugin.AnyToAny(in...)...)
+			out, err := s.Call(args[2], dypl.AnyToAny(in...)...)
 			if err != nil {
 				return err
 			}
